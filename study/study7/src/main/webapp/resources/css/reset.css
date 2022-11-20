@@ -1,0 +1,169 @@
+/* reset.css */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit; 
+}
+input { 
+
+-webkit-appearance : none;
+
+-moz-appearance:none;
+
+appearance:none;
+
+}
+a {color: #000; text-decoration: none; }
+a:hover, a:active {text-decoration: none;}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    
+}
+.menu_top{width:100%;}
+.menu{
+	width:80%;
+	height:50px;
+}
+.menu ul li{    
+	float: right;
+    width: 100px;
+    margin: 15px 0;
+}
+.wrap{
+	width: 80%; 
+	border: 2px solid rgb(128, 128, 128); 
+	margin:0 auto; 
+	text-align: center;
+}
+.header{
+	height:50px; 
+	width: 700px;
+    margin: 5% auto;
+	
+}
+.header ul li {
+	float:left; 
+	width:33%;
+	vertical-align: middle;
+}
+.header ul li h1 {
+	border: 1px solid rgb(128, 128, 128); 
+	padding: 10px 20px;
+}
+
+.section {
+    margin: 5% 0;
+}
+.section table {
+    margin: 0 auto;
+    width:700px;
+    min-height:300px; 
+    border: 2px solid rgb(128, 128, 128);
+
+}
+.section table thead {height:75px;}
+.section table thead tr th {width:33%;}
+.section table tbody tr {height:30px;cursor: pointer;}
+.section table tbody tr th {margin:0 auto; width:250px;}
+
+.section table .left{text-align: left;}
+.section table td {text-align: center;}
+.btn {
+	border-radius: 5px;
+    appearance: auto;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: buttonface;
+    color: buttontext;
+    padding: 3px 6px;
+    border: 1px solid #bcbcbc;
+}
+#team_id{width:54%}
+.box{width:70%}
+.button{width:100%;}
+.msg{    
+    width: 700px;
+    margin: 50px auto;
+    background-color: pink;
+ }
+ .msg p{text-align: left;}
+ .reg p{margin:40px 0;}
+ .reg p a{padding: 5px 20px; cursor:pointer;}
+.btn_box{width:700px;height:50px;margin: 30px auto;}
+.btn_box div{margin: 0 auto;}
+.btn_box div ul li{float:right; width:50px;margin: 0 10px;}
+.btn_box div ul li:first-child{float:right; width:50px;margin: 0;}
+.btn_box div ul li:last-child{float:right; width:50px;margin: 0;}
+
+
+
+.section_login {
+    margin: 5% 0;
+    margin:0 auto;
+}
+.section_login table {width:300px;}
+
+.section_login table thead {height:75px;}
+.section_login table thead tr th {width:33%;}
+.section_login table tbody tr {height:30px;cursor: pointer;}
+.section_login table tbody tr td {text-align: center;}
+.section_login table{margin:30px auto;}
+.section_login table .left{text-align: left;}
+.section_login table td {text-align: center;}
+.login_center{
+	margin: 0 auto;
+    width:700px;
+    min-height:180px; 
+    border: 2px solid #000;
+	
+}
+
+.logout_btn{
+	border-radius: 5px;
+    appearance: auto;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: buttonface;
+    color: buttontext;
+    padding: 3px 6px;
+    border: 1px solid #bcbcbc;
+}
+.login_center h3{
+	margin: 50px auto;
+}

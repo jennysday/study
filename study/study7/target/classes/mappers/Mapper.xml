@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="permission">
+
+
+	<!-- 회원가입 -->
+	<select id="signUp">
+		<![CDATA[
+			insert into user_mst(user_id,user_pswd)
+			values (#{user_id},#{user_pswd})
+		]]>
+	</select>
+	
+	<!-- 아이디 체크 -->
+	<select id="idCheck" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id}
+		]]>
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="loginCheck" resultType="String">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id} AND user_pswd = #{user_pswd}
+		]]>
+	</select>
+	
+	<!-- 임시로 사용 -->
+	<!-- 사용자 테이블 조회 -->
+	<select id="getuser" resultType="com.spring.test.vo.UserMstVO">
+	<![CDATA[
+		select * from user_mst where user_id = #{user_id}
+	]]>
+	</select>
+	
+	<!-- 부서 아이디 중복 체크 -->
+	<select id="teamIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(team_id) from team where team_id = #{team_id} 
+    ]]>    
+    </select>
+	
+	<!-- 상위부서 체크 -->
+	<!-- 
+	<select id="upteamCheck" parameterType="String" resultType="com.spring.test.vo.TeamCodeVO">
+    <![CDATA[    
+		SELECT *
+		FROM team
+		    INNER JOIN user_mst
+		    ON team.team_id = user_mst.user_team
+    ]]>    
+    </select>
+     -->
+     
+	<select id="upteamCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+		select count(team_id) from team where team_id = #{team_id}
+		
+    ]]>    
+    </select>
+	
+	
+	<!-- 부서 등록 -->
+	<insert id="regTeam" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		insert into team(team_id, team_name, team_upteam, team_user_id) 
+		values (#{team_id}, #{team_name}, #{team_upteam}, #{team_user_id})
+	]]>
+	</insert>
+	
+	<!-- 부서 조회 -->
+	<select id="getTeamList" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team
+	]]>
+	</select>
+
+	
+	<!-- 부서 상세 조회 -->
+	<select id="getTeam" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team where team_id = #{team_id}
+	]]>
+	</select>
+	
+	<!-- 부서 수정 -->
+	<update id="updateTeam">
+	<![CDATA[
+		update team set team_name = #{team_name}, team_upteam = #{team_upteam}, team_update_date = now() where team_id = #{team_id}
+	]]>
+	</update>
+	
+	<!-- 부서 삭제 -->
+	<delete id="delTeam">
+	<![CDATA[
+		delete from team where team_id = #{team_id}
+	]]>
+	</delete>
+</mapper>

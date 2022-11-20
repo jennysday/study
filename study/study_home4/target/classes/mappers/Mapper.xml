@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="permission">
+
+
+	<!-- 회원가입 -->
+	<select id="signUp">
+		<![CDATA[
+			insert into user_mst(user_id,user_pswd)
+			values (#{user_id},#{user_pswd})
+		]]>
+	</select>
+	
+	<!-- 아이디 체크 -->
+	<select id="idCheck" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id}
+		]]>
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="loginCheck" resultType="String">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id} AND user_pswd = #{user_pswd}
+		]]>
+	</select>
+	
+	<!-- 임시로 사용 -->
+	<!-- 사용자 테이블 조회 -->
+	<select id="getuser" resultType="com.spring.test.vo.UserMstVO">
+	<![CDATA[
+		select * from user_mst where user_id = #{user_id}
+	]]>
+	</select>
+	
+	<!-- 부서 아이디 중복 체크 -->
+	<select id="teamIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(team_id) from team where team_id = #{team_id} 
+    ]]>    
+    </select>
+	
+	<!-- 상위부서 체크 (리스트) -->
+
+	<select id="upteamList" parameterType="String" resultType="com.spring.test.vo.TeamCodeVO">
+    <![CDATA[    
+		select team_id, team_name from team;
+    ]]>    
+    </select>
+    <!-- SELECT *, LEFT(team_upteam, 2) as '상위부서코드 2자리' from team where LEFT(team_upteam, 2) like 'A0%'; -->
+
+    <!-- 상위부서 체크 --> 
+	<select id="upteamCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+		select count(team_id) from team where team_id = #{team_id}
+		
+    ]]>    
+    </select>
+	
+	
+	<!-- 부서 등록 -->
+	<insert id="regTeam" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		insert into team(team_id, team_name, team_upteam, team_user_id) 
+		values (#{team_id}, #{team_name}, #{team_upteam}, #{team_user_id})
+	]]>
+	</insert>
+	
+	<!-- 전체 부서 개수 조회 -->
+	<select id="count" resultType="int">
+	<![CDATA[
+		select count(*) from team
+	]]>
+	</select>
+	
+	<!-- 상위부서 조회 -->
+	
+	<select id="getupteamList" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team
+	]]>
+	</select>
+
+	 <!-- 게시글 리스트 최신순 정렬 (페이징 처리 o) -->
+	 <select id="getTeamList" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.PagingVO">
+	 <![CDATA[
+	 	select *
+	 	from (
+	 		select rownum, team_id, team_name, team_upteam, team_reg_date, team_update_date, team_user_id
+	 			from (
+	 				select @rownum := @rownum + 1 as rownum, team_id, team_name, team_upteam, team_reg_date, team_update_date, team_user_id
+	 				from team, (select @rownum := 0) tmp
+	 				order by rownum asc
+	 			)  A
+	 	)B
+	 	where rownum >= #{startRow} and rownum <= ${endRow}
+	 ]]>
+	 </select> 
+
+	
+	<!-- 부서 상세 조회 -->
+	<select id="getTeam" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team where team_id = #{team_id}
+	]]>
+	</select>
+	
+	<!-- 부서 수정 -->
+	<update id="updateTeam">
+	<![CDATA[
+		update team set team_name = #{team_name}, team_upteam = #{team_upteam}, team_update_date = now(), team_user_id = #{team_user_id} where team_id = #{team_id}
+	]]>
+	</update>
+	
+	<!-- 부서 삭제 -->
+	<delete id="delTeam">
+	<![CDATA[
+		delete from team where team_id = #{team_id}
+	]]>
+	</delete>
+</mapper>

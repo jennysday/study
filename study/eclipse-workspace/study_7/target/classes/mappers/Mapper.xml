@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="permission">
+
+
+	<!-- *****************************   로그인   **************************************** -->
+
+	<!-- 회원가입 -->
+	<select id="signUp">
+		<![CDATA[
+			insert into user_mst(user_id,user_pswd)
+			values (#{user_id},#{user_pswd})
+		]]>
+	</select>
+	
+	<!-- 아이디 체크 -->
+	<select id="idCheck" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id}
+		]]>
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="loginCheck" resultType="String">
+		<![CDATA[
+			SELECT count(*) FROM user_mst
+			WHERE user_id = #{user_id} AND user_pswd = #{user_pswd}
+		]]>
+	</select>
+	
+	<!-- 임시로 사용 -->
+	<!-- 사용자 테이블 조회 -->
+	<select id="getuser" resultType="com.spring.test.vo.UserMstVO">
+	<![CDATA[
+		select * from user_mst where user_id = #{user_id}
+	]]>
+	</select>
+	
+	<!-- *****************************   부서   **************************************** -->
+	
+	<!-- 부서 아이디 중복 체크 -->
+	<select id="teamIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(team_id) from team where team_id = #{team_id} 
+    ]]>    
+    </select>
+	
+	<!-- 상위부서 체크 (리스트) -->
+
+    <!-- SELECT *, LEFT(team_upteam, 2) as '상위부서코드 2자리' from team where LEFT(team_upteam, 2) like 'A0%'; -->
+
+    <!-- 상위부서 체크 --> 
+	<select id="upteamCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+		select count(team_id) from team where team_id = #{team_id}
+		
+    ]]>    
+    </select>
+	
+	
+	<!-- 부서 등록 -->
+	<insert id="regTeam" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		insert into team(team_id, team_name, team_upteam, team_user_id) 
+		values (#{team_id}, #{team_name}, #{team_upteam}, #{team_user_id})
+	]]>
+	</insert>
+	
+	<!-- 전체 부서 개수 조회 -->
+	<select id="count" resultType="int">
+	<![CDATA[
+		select count(*) from team
+	]]>
+	</select>
+	
+	<!-- 상위부서 조회 -->
+	
+	<select id="getupteamList" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team
+	]]>
+	</select>
+
+	 <!-- 게시글 리스트 최신순 정렬 (페이징 처리 o) -->
+	 <select id="getTeamList" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.PagingVO">
+	 <![CDATA[
+	 	select *
+	 	from (
+	 		select rownum, team_id, team_name, team_upteam, team_reg_date, team_update_date, team_user_id
+	 			from (
+	 				select @rownum := @rownum + 1 as rownum, team_id, team_name, team_upteam, team_reg_date, team_update_date, team_user_id
+	 				from team, (select @rownum := 0) tmp
+	 				order by team_id asc
+	 			)  A
+	 	)B
+	 	where rownum >= #{startRow} and rownum <= ${endRow}
+	 ]]>
+	 </select> 
+
+	
+	<!-- 부서 상세 조회 -->
+	<select id="getTeam" resultType="com.spring.test.vo.TeamVO" parameterType="com.spring.test.vo.TeamVO">
+	<![CDATA[
+		select * from team where team_id = #{team_id}
+	]]>
+	</select>
+	
+	<!-- 부서 수정 -->
+	<update id="updateTeam">
+	<![CDATA[
+		update team set team_name = #{team_name}, team_upteam = #{team_upteam}, team_update_date = now(), team_user_id = #{team_user_id} where team_id = #{team_id}
+	]]>
+	</update>
+	
+	<!-- 부서 삭제 -->
+	<delete id="delTeam">
+	<![CDATA[
+		delete from team where team_id = #{team_id}
+	]]>
+	</delete>
+	
+	
+	<!-- *****************************   프로그램   **************************************** -->
+	
+	
+	<!-- 프로그램 아이디 중복 체크 -->
+	<select id="pgmIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(pgm_id) from program where pgm_id = #{pgm_id} 
+    ]]>    
+    </select>
+	
+	
+	<!-- 프로그램 등록 -->
+	<insert id="regProgram" parameterType="com.spring.test.vo.ProgramVO">
+	<![CDATA[
+		insert into program(pgm_id, pgm_group, pgm_name, pgm_create, pgm_read, pgm_update, pgm_delete, pgm_status, pgm_user_id) 
+		values (#{pgm_id}, #{pgm_group}, #{pgm_name}, #{pgm_create}, #{pgm_read}, #{pgm_update}, #{pgm_delete}, #{pgm_status}, #{pgm_user_id})
+	]]>
+	</insert>
+	
+	<!-- 전체 프로그램 개수 조회 -->
+	<select id="pgmCount" resultType="int">
+	<![CDATA[
+		select count(*) from program
+	]]>
+	</select>
+	
+	<!-- 게시글 리스트 최신순 정렬 (페이징 처리 o) -->
+	 <select id="getProgramList" resultType="com.spring.test.vo.ProgramVO" parameterType="com.spring.test.vo.PagingVO">
+	 <![CDATA[
+	 	select *
+	 	from (
+	 		select rownum, pgm_id, pgm_group, pgm_name, pgm_create, pgm_read, pgm_update, pgm_delete, pgm_status, pgm_reg_date, pgm_update_date, pgm_user_id
+	 			from (
+	 				select @rownum := @rownum + 1 as rownum, pgm_id, pgm_group, pgm_name, pgm_create, pgm_read, pgm_update, pgm_delete, pgm_status, pgm_reg_date, pgm_update_date, pgm_user_id
+	 				from program, (select @rownum := 0) tmp
+	 				order by pgm_id asc
+	 			)  A
+	 	)B
+	 	where rownum >= #{startRow} and rownum <= ${endRow}
+	 ]]>
+	 </select> 
+	
+		
+	<!-- 프로그램 상세 조회 -->
+	<select id="getProgram" resultType="com.spring.test.vo.ProgramVO" parameterType="com.spring.test.vo.ProgramVO">
+	<![CDATA[
+		select * from program where pgm_id = #{pgm_id}
+	]]>
+	</select>
+	
+	<!-- 프로그램 수정 -->
+	<update id="updateProgram">
+	<![CDATA[
+		update program set pgm_name = #{pgm_name}, pgm_create = #{pgm_create}, pgm_create = #{pgm_create}, pgm_read = #{pgm_read}, pgm_update = #{pgm_update}, pgm_delete = #{pgm_delete}, pgm_update_date = now(), pgm_user_id = #{pgm_user_id} where pgm_id = #{pgm_id}
+	]]>
+	</update>
+	
+	<!-- 프로그램 삭제 -->
+	<delete id="delProgram">
+	<![CDATA[
+		delete from program where pgm_id = #{pgm_id}
+	]]>
+	</delete>
+	
+	
+	
+	<!-- *****************************   직무   **************************************** -->
+	
+	<!-- 직무 마스터 - 직무코드 중복 체크 -->
+	<select id="tmIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(titmst_id) from titlemst where titmst_id = #{titmst_id} 
+    ]]>    
+    </select>
+    
+	<!-- 직무 마스터 등록 -->
+	<insert id="regTitlemst" parameterType="com.spring.test.vo.ProgramVO">
+	<![CDATA[
+		insert into titlemst(titmst_id, titmst_name, titmst_class, titmst_user_id) 
+		values (#{titmst_id}, #{titmst_name}, #{titmst_class}, #{titmst_user_id})
+	]]>
+	</insert>
+	
+	<!-- 직무 상세 중복 체크 -->
+	<select id="pktitCheck" parameterType="com.spring.test.vo.ProgramVO" resultType="int">
+    <![CDATA[    
+        select count(*) from titledetail where titdet_titmst_id = #{titdet_titmst_id} and titdet_pgm_id = #{titdet_pgm_id};
+    ]]>    
+    </select>
+	
+	<!-- 직무 상세 등록 -->
+	<insert id="regTitledetail" parameterType="com.spring.test.vo.ProgramVO">
+	<![CDATA[
+		insert into titledetail(titdet_titmst_id, titdet_pgm_id, titdet_function, titdet_user_id) 
+		values (#{titdet_titmst_id}, #{titdet_pgm_id}, #{titdet_function}, #{titdet_user_id})
+	]]>
+	</insert>
+	
+	<!-- 전체 직무 개수 조회 -->
+	<select id="titleMstCount" resultType="int">
+	<![CDATA[
+		select count(*) from titlemst
+	]]>
+	</select>
+	
+	<!-- 직무 마스터 조회 -->
+	<select id="getTitleMstList" resultType="com.spring.test.vo.ProgramVO" parameterType="com.spring.test.vo.PagingVO">
+	 <![CDATA[
+	 	select *
+	 	from (
+	 		select rownum, titmst_id, titmst_name, titmst_class, titmst_user_id
+	 			from (
+	 				select @rownum := @rownum + 1 as rownum, titmst_id, titmst_name, titmst_class, titmst_user_id
+	 				from titlemst, (select @rownum := 0) tmp
+	 				order by titmst_id asc
+	 			)  A
+	 	)B
+	 	where rownum >= #{startRow} and rownum <= ${endRow}
+	 ]]>
+	 </select> 
+	
+	
+	<!-- 전체 직무 개수 조회 -->
+	<select id="titleCount" resultType="int">
+	<![CDATA[
+		select count(*)
+		from titledetail d 
+			join titlemst m
+			on d.titdet_titmst_id = m.titmst_id
+			join program p
+			on d.titdet_pgm_id = p.pgm_id;
+	]]>
+	</select>
+	
+	<!-- 직무  조회 -->
+	<select id="getTitleList">
+	<![CDATA[
+		
+	]]>
+	</select>
+	
+	<!-- select *
+		from titledetail d 
+		join titlemst m
+		on d.titdet_titmst_id = m.titmst_id
+		join program p
+		on d.titdet_pgm_id = p.pgm_id; -->
+	
+	
+	<!-- *****************************   사용자   **************************************** -->
+	
+	
+	<!-- 사용자 아이디 중복 체크 -->
+	<select id="userIdCheck" parameterType="String" resultType="int">
+    <![CDATA[    
+        select count(user_id) from user_mst where user_id = #{user_id} 
+    ]]>    
+    </select>
+	
+	
+	<!-- 사용자 등록 -->
+	<insert id="regUser" parameterType="com.spring.test.vo.UserMstVO">
+	<![CDATA[
+		insert into user_mst(user_id, user_name, user_pswd, user_team, user_titmst_id1, user_titmst_id2, user_titmst_id3, user_dataaccess, user_reg_date, user_update_date, user_user_id) 
+		values (#{user_id}, #{user_name}, #{user_pswd}, #{user_team}, #{user_titmst_id1}, #{user_titmst_id2}, #{user_titmst_id3}, #{user_dataaccess}, #{user_reg_date}, #{user_update_date}, #{user_user_id})
+	]]>
+	</insert>
+	
+	<!-- 전체 사용자 개수 조회 -->
+	<select id="userCount" resultType="int">
+	<![CDATA[
+		select count(*) from user_mst
+	]]>
+	</select>
+	
+	<!-- 사용자 게시글 리스트 최신순 정렬 (페이징 처리 o) -->
+	 <select id="getUserList" resultType="com.spring.test.vo.UserMstVO" parameterType="com.spring.test.vo.PagingVO">
+	 <![CDATA[
+	 	select *
+	 	from (
+	 		select rownum, user_id, user_name, user_pswd, user_team, user_titmst_id1, user_titmst_id2, user_titmst_id3, user_dataaccess, user_reg_date, user_update_date, user_user_id
+	 			from (
+	 				select @rownum := @rownum + 1 as rownum, user_id, user_name, user_pswd, user_team, user_titmst_id1, user_titmst_id2, user_titmst_id3, user_dataaccess, user_reg_date, user_update_date, user_user_id
+	 				from user_mst, (select @rownum := 0) tmp
+	 				order by user_id asc
+	 			)  A
+	 	)B
+	 	where rownum >= #{startRow} and rownum <= ${endRow}
+	 ]]>
+	 </select> 
+	
+		
+	<!-- 사용자 상세 조회 -->
+	<select id="getUser" resultType="com.spring.test.vo.UserMstVO" parameterType="com.spring.test.vo.UserMstVO">
+	<![CDATA[
+		select * from user_mst where user_id = #{user_id}
+	]]>
+	</select>
+	
+	<!-- 사용자 수정 -->
+	<update id="updateUser">
+	<![CDATA[
+		update user_mst set user_team = #{user_team}, user_titmst_id1 = #{user_titmst_id1}, user_titmst_id2 = #{user_titmst_id2}, user_titmst_id3 = #{user_titmst_id3}, user_dataaccess = #{user_dataaccess}, user_update_date = #{user_update_date}, user_user_id = #{user_user_id} where user_id = #{user_id}
+	]]>
+	</update>
+	
+	<!-- 사용자 삭제 -->
+	<delete id="delUser">
+	<![CDATA[
+		delete from user_mst where user_id = #{user_id}
+	]]>
+	</delete>
+	
+	
+	
+
+	
+	
+
+</mapper>

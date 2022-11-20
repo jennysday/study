@@ -1,0 +1,220 @@
+/* reset.css */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit; 
+}
+input { 
+
+-webkit-appearance : none;
+
+-moz-appearance:none;
+
+appearance:none;
+
+}
+a {color: #000; text-decoration: none; }
+a:hover, a:active {text-decoration: none;}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    
+}
+.menu_top{width:100%;}
+
+.menu_bar{
+	width:80%;
+	height:50px;
+	margin: 0 auto;
+	text-align:center;
+	vertical-align: middle;
+	font-size: 15px;	
+}
+
+.menu {
+  float:left;
+  margin: 15px 0;
+  overflow: hidden;
+  position: fixed;
+}
+
+.menu > li {
+  width: 25%; /*20*5=100%*/
+  float: left;
+  text-align: center;
+  background-color: pink;
+}
+
+.menu a {
+  color: #fff;
+}
+
+.menu a:hover {
+  color: pink;
+}
+
+.submenu > li {
+  line-height: 50px;
+  background-color: #94a9ff;
+}
+
+.submenu {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+
+
+.menu > li:hover {
+  background-color: #94a9ff;
+  transition-duration: 0.5s;
+}
+
+.menu > li:hover .submenu {
+  height: 250px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+}
+
+.menu_bar .right {float:right;margin: 15px 0;}
+.menu_bar:after {content:""; display: block; clear:both;}
+
+.wrap{
+	width: 80%; 
+	border: 2px solid rgb(128, 128, 128); 
+	margin:0 auto; 
+	text-align: center;
+}
+.header{
+	height:50px; 
+	width: 700px;
+    margin: 2% auto;
+	
+}
+.header ul li {
+	float:left; 
+	width:33%;
+	vertical-align: middle;
+}
+.header ul li h1 {
+	border: 1px solid rgb(128, 128, 128); 
+	padding: 10px 20px;
+}
+
+.section {
+    display: inline-block;
+    width:45%;
+    vertical-align: middle;
+    padding:1%;
+}
+
+.section table {
+    
+    width:100%;
+    min-height:387px; 
+    border: 2px solid rgb(128, 128, 128);
+
+}
+.section table thead {height:75px;}
+.section table thead tr th {width:33%;}
+.section table tbody tr {height:30px;cursor: pointer;}
+.section table tbody tr th {margin:0 auto; width:250px;}
+
+.section table .left{text-align: left;}
+.section table td {text-align: center;}
+.btn {
+	border-radius: 5px;
+    appearance: auto;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: buttonface;
+    color: buttontext;
+    padding: 3px 6px;
+    border: 1px solid #bcbcbc;
+}
+#team_id{width:54%}
+.box{width:70%}
+.button{width:100%;}
+.msg{    
+    width: 700px;
+    margin: 0 auto;
+    background-color: pink;
+ }
+ .msg_login{
+ 	width: 700px;
+    margin: 50px auto;
+    background-color: pink;
+    text-align: left;
+ }
+ .msg_list{    
+    width: 700px;
+    margin: 0 auto;
+    background-color: pink;
+    clear:left;
+ }
+ .msg_list_p{
+ 	text-align: left;
+ }
+ .msg p{text-align: left;}
+ .reg p{margin:40px 0;}
+ .reg p a{padding: 5px 20px; cursor:pointer;}
+.btn_box{   
+    height: 30px;
+    margin: 30px auto;
+    text-align: center;
+    display: inline-block;
+}
+.btn_box div{margin: 0 auto;}
+.btn_box div ul li{float:right; width:50px;margin: 0 10px;}
+.btn_box div ul li:first-child{float:right; width:50px;margin: 0;}
+.btn_box div ul li:last-child{float:right; width:50px;margin: 0;}
+
+.btn_box_reg{width:700px;height:30px;margin: 30px auto;}
+.btn_box_reg div{margin: 0 auto;}
+.btn_box_reg div ul li{float:right; width:40px;margin: 0 10px;}
+
+
+.btn_box_list{width:700px;height:20px;margin: 30px auto;}
+.btn_box_list div ul li:first-child{float:left; margin: 0;}
+.btn_box_list div ul li:last-child{float:right; margin: 0;}
+
+.teamList{
+	width: 252px;
+    height: 23px;
+    text-align: left;
+}    
+
+ .paging {
+ 	height: 30px;
+    margin: 30px;
+}
+
